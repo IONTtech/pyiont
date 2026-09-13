@@ -1,0 +1,99 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyiont"
+version = "0.1.0"
+description = "Asynchronous Python client for IONT EV chargers over Modbus TCP."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "IONT", email = "info@iont.tech" }]
+requires-python = ">=3.13"
+keywords = [
+  "async",
+  "ev-charger",
+  "evse",
+  "home-assistant",
+  "iont",
+  "modbus",
+  "wallbox",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: AsyncIO",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Home Automation",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = ["modbus-connection>=4.8.1"]
+
+[project.optional-dependencies]
+tmodbus = ["modbus-connection[tmodbus]>=4.8.1"]
+pymodbus = ["modbus-connection[pymodbus]>=4.8.1"]
+
+[project.urls]
+Homepage = "https://github.com/IONTtech/pyiont"
+Repository = "https://github.com/IONTtech/pyiont"
+Documentation = "https://github.com/IONTtech/pyiont"
+"Bug Tracker" = "https://github.com/IONTtech/pyiont/issues"
+Changelog = "https://github.com/IONTtech/pyiont/releases"
+
+[dependency-groups]
+dev = [
+  "mypy>=1.14",
+  "pytest>=8.3",
+  "pytest-asyncio>=0.25",
+  "pytest-cov>=6.0",
+  "ruff>=0.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyiont"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/pyiont", "tests", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+addopts = "--strict-markers --strict-config"
+testpaths = ["tests"]
+xfail_strict = true
+
+[tool.coverage.run]
+source = ["pyiont"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["src/pyiont"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "ANN401",  # Any is needed for the generic write validators
+  "COM812",  # handled by the formatter
+  "D203",    # conflicts with D211
+  "D213",    # conflicts with D212
+  "CPY001",  # no per-file copyright headers
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "PLR2004", "S101", "SLF001"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
