@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import IntEnum
 from typing import Final
 
-DEFAULT_PORT: Final = 502
+DEFAULT_PORT: Final = 30502
 """The TCP port an IONT charger listens on for Modbus requests."""
 
 # -- Register layout -----------------------------------------------------------

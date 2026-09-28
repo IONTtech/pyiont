@@ -20,7 +20,7 @@ pip install "pyiont[pymodbus]"   # pymodbus backend
 
 Modbus TCP has to be enabled on the charger, in its administration interface
 under **Protocols**. Writing (authorization, power limit) is a separate switch
-there and is off by default. The charger listens on port `502`.
+there and is off by default. The charger listens on port `30502`.
 
 ## Example
 
@@ -34,7 +34,7 @@ from pyiont import IontCharger
 
 
 async def main() -> None:
-    connection = ModbusConnection(ModbusTcpParams(host="192.168.1.60", port=502))
+    connection = ModbusConnection(ModbusTcpParams(host="192.168.1.60", port=30502))
     try:
         charger = await IontCharger.async_probe(connection.for_unit(1))
         report = await charger.async_update()
